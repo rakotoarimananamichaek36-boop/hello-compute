@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NIBLUX Dashboard</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+    <h1>Your Dashboard</h1>
+</header>
+
+<div class="container">
+
+    <h2>Your Consumption</h2>
+    <p id="consumedDisplay">Loading...</p>
+
+    <h2>Buy an Offer</h2>
+
+    <div class="offers">
+        <button onclick="buy('1Go = 1000 Ar')">1Go — 1000 Ar</button>
+        <button onclick="buy('3Go = 3000 Ar')">3Go — 3000 Ar</button>
+        <button onclick="buy('5Go = 5000 Ar')">5Go — 5000 Ar</button>
+        <button onclick="buy('Illimité = 20000 Ar')">Illimité — 20 000 Ar</button>
+    </div>
+
+    <h3>Pay With</h3>
+    <p>Mvola : <b>0380800413</b><br>Airtel Money : <b>0331063553</b></p>
+
+    <button onclick="logout()" class="danger">Logout</button>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
