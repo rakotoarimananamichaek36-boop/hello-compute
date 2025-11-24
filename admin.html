@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NIBLUX-Cnet — Admin Dashboard</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #0a0f24;
+        color: white;
+    }
+
+    header {
+        background: #131b3a;
+        padding: 20px;
+        text-align: center;
+        font-size: 26px;
+        font-weight: bold;
+        letter-spacing: 1px;
+        border-bottom: 2px solid #1e2a55;
+    }
+
+    .container {
+        padding: 20px;
+    }
+
+    h2 {
+        border-left: 4px solid #00aaff;
+        padding-left: 10px;
+        margin-top: 30px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 12px;
+    }
+
+    table th, table td {
+        border: 1px solid #1f2b57;
+        padding: 10px;
+        text-align: left;
+    }
+
+    table th {
+        background: #1b264d;
+    }
+
+    .empty {
+        text-align: center;
+        padding: 15px;
+        color: #aaa;
+    }
+
+    .card {
+        background: #11182f;
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 20px;
+        border: 1px solid #1f2b57;
+    }
+
+    .email-box {
+        background: black;
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 20px;
+        border: 1px solid #333;
+        font-family: monospace;
+        height: 200px;
+        overflow-y: scroll;
+        color: #0f0;
+    }
+</style>
+</head>
+
+<body>
+
+<header>NIBLUX-Cnet — ADMIN DASHBOARD</header>
+
+<div class="container">
+
+    <h2>👥 Registered Clients</h2>
+    <div id="clientsTable"></div>
+
+    <h2>🛒 Purchases</h2>
+    <div id="purchasesTable"></div>
+
+    <h2>📊 Consumption</h2>
+    <div id="consumptionTable"></div>
+
+    <h2>📩 Email Log (simulation)</h2>
+    <div id="emailLog" class="email-box">Waiting for purchase notifications...</div>
+
+</div>
+
+<script>
+/* Load Data from localStorage */
+const clients = JSON.parse(localStorage.getItem("clients") || "[]");
+const purchases = JSON.parse(localStorage.getItem("purchases") || "[]");
+const consumption = JSON.parse(localStorage.getItem("consumption") || "{}");
+const emailLog = JSON.parse(localStorage.getItem("emailLog") || "[]");
+
+function renderClients() {
+    if (clients.length === 0) {
+        document.getElementById("clientsTable").innerHTML = "<div class='empty'>No clients registered yet.</div>";
+        return;
+    }
+
+    let html = `<table>
+        <tr><th>Name</th><th>Phone</th><th>Password</th></tr>`;
+
+    clients.forEach(c => {
+        html += `<tr>
+            <td>${c.name}</td>
+            <td>${c.phone}</td>
+            <td>${c.password}</td>
+        </tr>`;
+    });
+
+    html += `</table>`;
+    document.getElementById("clientsTable").innerHTML = html;
+}
+
+function renderPurchases() {
+    if (purchases.length === 0) {
+        document.getElementById("purchasesTable").innerHTML = "<div class='empty'>No purchases yet.</div>";
+        return;
+    }
+
+    let html = `<table>
+        <tr><th>Name</th><th>Phone</th><th>Offer</th><th>Location</th><th>Date</th></tr>`;
+
+    purchases.forEach(p => {
+        html += `<tr>
+            <td>${p.name}</td>
+            <td>${p.phone}</td>
+            <td>${p.offer}</td>
+            <td>${p.location}</td>
+            <td>${p.date}</td>
+        </tr>`;
+    });
+
+    html += `</table>`;
+    document.getElementById("purchasesTable").innerHTML = html;
+}
+
+function renderConsumption() {
+    if (Object.keys(consumption).length === 0) {
+        document.getElementById("consumptionTable").innerHTML = "<div class='empty'>No data consumption available.</div>";
+        return;
+    }
+
+    let html = `<table>
+        <tr><th>Phone</th><th>Consumed</th></tr>`;
+
+    for (let phone in consumption) {
+        html += `<tr>
+            <td>${phone}</td>
+            <td>${consumption[phone]} Go</td>
+        </tr>`;
+    }
+
+    html += `</table>";
+    document.getElementById("consumptionTable").innerHTML = html;
+}
+
+function renderEmailLog() {
+    const box = document.getElementById("emailLog");
+    if (emailLog.length === 0) {
+        box.innerHTML = "Waiting for purchase notifications...";
+        return;
+    }
+
+    box.innerHTML = emailLog.map(e => `✔ EMAIL SENT → ${e}`).join("<br><br>");
+}
+
+renderClients();
+renderPurchases();
+renderConsumption();
+renderEmailLog();
+</script>
+
+</body>
+</html>
